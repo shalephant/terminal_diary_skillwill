@@ -1,7 +1,7 @@
 import sys
 from diarybook import DiaryBook, Diary
 import utils
-
+from sign import SignOptions
 
 class Menu:
     def __init__(self):
@@ -71,6 +71,28 @@ class Menu:
 
     def run(self):
         while True:
+            login = input("Type 1 for login or 2 for register: ")
+            if login == "1":
+                username = input("Enter username: ")
+                password = input("Enter password: ")
+                self.user = SignOptions()
+                if self.user.check_login(username, password):
+                    print(f"welcome {username}")
+                    pass
+                else:
+                    print("Register first")
+                    sys.exit()
+
+            elif login == "2":
+                username = input("Enter username: ")
+                password = input("Enter password: ")
+                password2 = input("Enter password again: ")
+                if password != password2:
+                    print("Passwords do not match, try again")
+                    sys.exit()
+                else:
+                    self.user = SignOptions()
+                    self.user.register(username, password)
             self.display_menu()
             choice = input("Enter an option: ")
             action = self.choices.get(choice)
