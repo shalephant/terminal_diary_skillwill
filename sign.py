@@ -1,12 +1,18 @@
+import json
 class SignOptions:
     def __init__(self):
         self.users = []
 
     def register(self, user, password):
-        self.users.append({"username": user,
-                           "password": password})
-        with open(f"{user}_diary", "w") as file:
-            file.write(f"User: {user} Password: {password}")
+        new_account = {
+
+                        "username": user,
+                        "password": password
+                }
+
+        with open("accounts.txt", "a") as file:
+            file.write(f"{user},{password}\n")
+
 
 
 
