@@ -15,8 +15,10 @@ class DiaryBook:
     def __init__(self):
         self.diaries = []
 
-    def new_diary(self, memo, tags=' '):
+    def new_diary(self, username, memo, tags=' '):
         self.diaries.append(Diary(memo, tags))
+        with open(f"{username}_diary.txt", "a") as file:
+            file.writelines(f"Memo: {memo}\nTags: {tags}\n")
 
     def search_diary(self, keyword):
         filtered_diaries = []

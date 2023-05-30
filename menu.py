@@ -15,6 +15,8 @@ class Menu:
             "5": self.quit
         }
 
+        self.user_name = ""
+
     def show_all_diaries_memo(self):
         sorted_by_memos = []
         if len(self.diarybook.diaries) == 0:
@@ -37,7 +39,7 @@ class Menu:
     def add_diary(self):
         memo = input("Enter a memo: ")
         tags = input("Enter tags: ")
-        self.diarybook.new_diary(memo, tags)
+        self.diarybook.new_diary(self.user_name, memo, tags)
 
     def search_diaries(self):
         keyword = input("Enter a keyword: ")
@@ -70,29 +72,30 @@ class Menu:
             """)
 
     def run(self):
-        while True:
-            login = input("Type 1 for login or 2 for register: ")
-            if login == "1":
-                username = input("Enter username: ")
-                password = input("Enter password: ")
+        login = input("Type 1 for login or 2 for register: ")
+        if login == "1":
+            username = input("Enter username: ")
+            password = input("Enter password: ")
+            self.user = SignOptions()
+            if self.user.check_login(username, password) == username:
+                print(self.user.check_login(username, password))
+                self.user_name = username
+                print(f"welcome {username}")
+            else:
+                print("Register first")
+                sys.exit()
+        elif login == "2":
+            username = input("Enter username: ")
+            password = input("Enter password: ")
+            password2 = input("Enter password again: ")
+            if password != password2:
+                print("Passwords do not match, try again")
+                sys.exit()
+            else:
                 self.user = SignOptions()
-                if self.user.check_login(username, password):
-                    print(f"welcome {username}")
-                    pass
-                else:
-                    print("Register first")
-                    sys.exit()
-
-            elif login == "2":
-                username = input("Enter username: ")
-                password = input("Enter password: ")
-                password2 = input("Enter password again: ")
-                if password != password2:
-                    print("Passwords do not match, try again")
-                    sys.exit()
-                else:
-                    self.user = SignOptions()
-                    self.user.register(username, password)
+                self.user.register(username, password)
+                self.user_name = username
+        while True:
             self.display_menu()
             choice = input("Enter an option: ")
             action = self.choices.get(choice)
